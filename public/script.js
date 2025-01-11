@@ -26,11 +26,6 @@ function init() {
     // Create a simple cube geometry
     const geometry = new THREE.BoxGeometry();
 
-    // Assign texture to the cube faces
-    geometry.faces.forEach((face, index) => {
-      face.materialIndex = 0;
-    });
-
     // Create a cube with the textured material
     cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
