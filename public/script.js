@@ -3,6 +3,8 @@ import * as THREE from 'three';
 let scene, camera, renderer, cube;
 
 function init() {
+  console.log("Initializing Three.js...");
+
   // Initialize the scene
   scene = new THREE.Scene();
 
@@ -26,6 +28,7 @@ function init() {
 
   // Start the animation loop
   animate();
+  console.log("Three.js initialized and rendering...");
 }
 
 function animate() {
