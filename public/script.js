@@ -17,16 +17,16 @@ function init() {
 
   // Load missing texture
   const loader = new THREE.TextureLoader();
-  const missingTexture = loader.load('assets/blocks/missing.png', createCube, undefined, () => {
-    console.error('Error loading missing.png.');
-  });
+  const missingTexture = loader.load('assets/blocks/missing.png', createCube);
 
   function createCube(texture) {
     // Create material with the texture
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
-    // Create geometry and manually set UV coordinates
+    // Create a simple cube geometry
     const geometry = new THREE.BoxGeometry();
+
+    // Manually set UV coordinates
     const uvMapping = [
       // Right
       { x: 0.75, y: 0.66 }, { x: 0.5, y: 0.66 }, { x: 0.5, y: 0.33 }, { x: 0.75, y: 0.33 },
@@ -42,12 +42,23 @@ function init() {
       { x: 1, y: 0.66 }, { x: 0.75, y: 0.66 }, { x: 0.75, y: 0.33 }, { x: 1, y: 0.33 },
     ];
 
-    geometry.faceVertexUvs[0] = [];
-    for (let i = 0; i < 6; i++) {
-      const uv = uvMapping.slice(i * 4, i * 4 + 4);
-      geometry.faceVertexUvs[0].push([uv[0], uv[1], uv[3]]);
-      geometry.faceVertexUvs[0].push([uv[1], uv[2], uv[3]]);
-    }
+    const uvFaces = [
+      geometry.faceVertexUvs[0][0],
+      geometry.faceVertexUvs[0][1],
+      geometry.faceVertexUvs[0][2],
+      geometry.faceVertexUvs[0][3],
+      geometry.faceVertexUvs[0][4],
+      geometry.faceVertexUvs[0][5],
+    ];
+
+    uvFaces.forEach((face, index) => {
+      const uv = uvMapping.slice(index * 4, index * 4 + 4);
+      face[0].set(uv[0].x, uv[0].y);
+      face[1].set(uv[1].x, uv[1].y);
+      face[2].set(uv[2].x, uv[2].y);
+      face[3].set(uv[3].x, uv[3].y);
+    });
+
     geometry.uvsNeedUpdate = true;
 
     // Create a cube with the textured material
@@ -62,8 +73,10 @@ function init() {
     requestAnimationFrame(animate);
 
     // Rotate the cube for a simple animation
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
+    if (cube) {
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+    }
 
     renderer.render(scene, camera);
   }
