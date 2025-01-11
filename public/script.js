@@ -15,20 +15,11 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.querySelector('.game-screen').appendChild(renderer.domElement);
 
-  // Load textures
+  // Load missing texture
   const loader = new THREE.TextureLoader();
-  const missingTexture = loader.load('assets/blocks/missing.png');
-
-  loader.load('assets/blocks/grass_block.png',
-    (texture) => {
-      createCube(texture);
-    },
-    undefined,
-    () => {
-      console.error('Error loading grass_block.png, using missing texture instead.');
-      createCube(missingTexture);
-    }
-  );
+  const missingTexture = loader.load('assets/blocks/missing.png', createCube, undefined, () => {
+    console.error('Error loading missing.png.');
+  });
 
   function createCube(texture) {
     // Create material with the texture
