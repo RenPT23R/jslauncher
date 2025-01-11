@@ -20,21 +20,21 @@ function init() {
   const missingTexture = loader.load('assets/blocks/missing.png', createCube);
 
   function createCube(texture) {
-    // Create material with the texture
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-
-    // Create a simple cube geometry
-    const geometry = new THREE.BoxGeometry();
-
-    // Ensure faceVertexUvs[0] is properly initialized (not [1])
-    if (!geometry.faceVertexUvs[0]) {
-      geometry.faceVertexUvs[0] = [];
+    if (!texture) {
+      console.error("Texture is undefined, aborting cube creation");
+      return;
     }
 
-    // Define UV mapping for each face of the cube
+    // Create material with the loaded texture
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+    // Create a simple cube geometry (BufferGeometry for modern Three.js)
+    const geometry = new THREE.BoxBufferGeometry();
+
     const texWidth = 16;  // Assuming the texture is 16x16
     const texHeight = 16;
 
+    // UV mapping for each face of the cube (adjusted for 16x16 texture)
     const uvMapping = [
       // Right face
       [new THREE.Vector2(12 / texWidth, 10 / texHeight), new THREE.Vector2(16 / texWidth, 10 / texHeight), new THREE.Vector2(16 / texWidth, 16 / texHeight), new THREE.Vector2(12 / texWidth, 16 / texHeight)],
@@ -44,25 +44,41 @@ function init() {
       [new THREE.Vector2(4 / texWidth, 16 / texHeight), new THREE.Vector2(0 / texWidth, 16 / texHeight), new THREE.Vector2(0 / texWidth, 10 / texHeight), new THREE.Vector2(4 / texWidth, 10 / texHeight)],
       // Bottom face
       [new THREE.Vector2(4 / texWidth, 8 / texHeight), new THREE.Vector2(0 / texWidth, 8 / texHeight), new THREE.Vector2(0 / texWidth, 4 / texHeight), new THREE.Vector2(4 / texWidth, 4 / texHeight)],
-      // Front face (North)
+      // Front face
       [new THREE.Vector2(8 / texWidth, 10 / texHeight), new THREE.Vector2(4 / texWidth, 10 / texHeight), new THREE.Vector2(4 / texWidth, 8 / texHeight), new THREE.Vector2(8 / texWidth, 8 / texHeight)],
-      // Back face (South)
+      // Back face
       [new THREE.Vector2(16 / texWidth, 10 / texHeight), new THREE.Vector2(12 / texWidth, 10 / texHeight), new THREE.Vector2(12 / texWidth, 8 / texHeight), new THREE.Vector2(16 / texWidth, 8 / texHeight)]
     ];
 
-    // Map the UVs to each face correctly
+    // Directly modify the UV attribute of the geometry
+    const uvs = geometry.attributes.uv.array;
     for (let i = 0; i < 6; i++) {
-      const uvs = uvMapping[i];
+      const uv = uvMapping[i];
 
-      // Ensure we're pushing two triangles per face (for each quad face)
-      geometry.faceVertexUvs[0].push([uvs[0], uvs[1], uvs[2]]);
-      geometry.faceVertexUvs[0].push([uvs[0], uvs[2], uvs[3]]);
+      // Each face consists of 6 UV coordinates (2 triangles)
+      const offset = i * 6; 
+
+      // First triangle
+      uvs[offset + 0] = uv[0].x;
+      uvs[offset + 1] = uv[0].y;
+      uvs[offset + 2] = uv[1].x;
+      uvs[offset + 3] = uv[1].y;
+      uvs[offset + 4] = uv[2].x;
+      uvs[offset + 5] = uv[2].y;
+
+      // Second triangle
+      uvs[offset + 6] = uv[0].x;
+      uvs[offset + 7] = uv[0].y;
+      uvs[offset + 8] = uv[2].x;
+      uvs[offset + 9] = uv[2].y;
+      uvs[offset + 10] = uv[3].x;
+      uvs[offset + 11] = uv[3].y;
     }
 
-    // Ensure UVs are updated
-    geometry.uvsNeedUpdate = true;
+    // Mark UVs as needing an update
+    geometry.attributes.uv.needsUpdate = true;
 
-    // Create the cube and add it to the scene
+    // Create the cube mesh and add it to the scene
     cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
