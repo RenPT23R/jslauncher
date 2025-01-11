@@ -1,13 +1,13 @@
 body {
     margin: 0;
     height: 100vh;
-    background-image: url('https://example.com/path/to/minecraft-bg.jpg'); /* Replace with actual URL */
+    background-image: url('https://minecraft.wiki/images/thumb/Clear_panorama.png/600px-Clear_panorama.png?9d8bd');
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Press Start 2P', Arial, sans-serif; /* Use the "Press Start 2P" font */
+    font-family: 'Press Start 2P', Arial, sans-serif;
   }
   
   .title-screen {
@@ -42,7 +42,7 @@ body {
     color: white;
     border-radius: 10px;
     margin-top: 20px;
-    font-family: 'Press Start 2P', Arial, sans-serif; /* Use the "Press Start 2P" font */
+    font-family: 'Press Start 2P', Arial, sans-serif;
   }
   
   button:hover {
@@ -56,14 +56,4 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
-  
-  .assets-preview {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .assets-preview img {
-    width: 64px;
-    height: 64px;
   }  

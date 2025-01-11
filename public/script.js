@@ -18,13 +18,16 @@ function init() {
   // Load textures
   const loader = new THREE.TextureLoader();
   const missingTexture = loader.load('assets/blocks/missing.png');
-  const grassBlockTexture = loader.load('assets/blocks/grass_block.png', undefined, undefined, () => {
-    console.error('Error loading texture, using missing texture instead.');
-    return missingTexture;
-  });
 
-  // Create material with the texture
-  const material = new THREE.MeshBasicMaterial({ map: grassBlockTexture || missingTexture });
+  let grassBlockTexture;
+  loader.load('assets/blocks/grass_block.png',
+    (texture) => { grassBlockTexture = texture; },
+    undefined,
+    () => {
+      console.error('Error loading texture, using missing texture instead.');
+      grassBlockTexture = missingTexture;
+    }
+  );
 
   // Create geometry and manually set UV coordinates
   const geometry = new THREE.BoxGeometry();
@@ -52,6 +55,7 @@ function init() {
   geometry.uvsNeedUpdate = true;
 
   // Create a cube with the textured material
+  const material = new THREE.MeshBasicMaterial({ map: grassBlockTexture || missingTexture });
   cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
