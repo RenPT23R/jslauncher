@@ -1,7 +1,7 @@
 body {
     margin: 0;
     height: 100vh;
-    background-image: url('https://minecraft.wiki/images/thumb/Clear_panorama.png/600px-Clear_panorama.png?9d8bd'); /* Replace with actual URL */
+    background-image: url('https://example.com/path/to/minecraft-bg.jpg'); /* Replace with actual URL */
     background-size: cover;
     background-position: center;
     display: flex;
@@ -27,6 +27,12 @@ body {
     color: #fff;
   }
   
+  .version-info {
+    font-size: 16px;
+    color: #fff;
+    margin: 10px 0 20px 0;
+  }
+  
   button {
     padding: 15px 40px;
     font-size: 24px;
@@ -46,5 +52,18 @@ body {
   .game-screen {
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   
+  .assets-preview {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .assets-preview img {
+    width: 64px;
+    height: 64px;
+  }  

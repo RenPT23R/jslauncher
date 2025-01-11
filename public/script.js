@@ -15,9 +15,43 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.querySelector('.game-screen').appendChild(renderer.domElement);
 
-  // Add a simple cube to the scene
+  // Load textures
+  const loader = new THREE.TextureLoader();
+  const missingTexture = loader.load('assets/blocks/missing.png');
+  const grassBlockTexture = loader.load('assets/blocks/grass_block.png', undefined, undefined, () => {
+    console.error('Error loading texture, using missing texture instead.');
+    return missingTexture;
+  });
+
+  // Create material with the texture
+  const material = new THREE.MeshBasicMaterial({ map: grassBlockTexture || missingTexture });
+
+  // Create geometry and manually set UV coordinates
   const geometry = new THREE.BoxGeometry();
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const uvMapping = [
+    // Right
+    { x: 0.75, y: 0.66 }, { x: 0.5, y: 0.66 }, { x: 0.5, y: 0.33 }, { x: 0.75, y: 0.33 },
+    // Left
+    { x: 0.25, y: 0.66 }, { x: 0, y: 0.66 }, { x: 0, y: 0.33 }, { x: 0.25, y: 0.33 },
+    // Top
+    { x: 0.25, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0.66 }, { x: 0.25, y: 0.66 },
+    // Bottom
+    { x: 0.25, y: 0.33 }, { x: 0, y: 0.33 }, { x: 0, y: 0 }, { x: 0.25, y: 0 },
+    // Front (North)
+    { x: 0.5, y: 0.66 }, { x: 0.25, y: 0.66 }, { x: 0.25, y: 0.33 }, { x: 0.5, y: 0.33 },
+    // Back (South)
+    { x: 1, y: 0.66 }, { x: 0.75, y: 0.66 }, { x: 0.75, y: 0.33 }, { x: 1, y: 0.33 },
+  ];
+
+  geometry.faceVertexUvs[0] = [];
+  for (let i = 0; i < 6; i++) {
+    const uv = uvMapping.slice(i * 4, i * 4 + 4);
+    geometry.faceVertexUvs[0].push([uv[0], uv[1], uv[3]]);
+    geometry.faceVertexUvs[0].push([uv[1], uv[2], uv[3]]);
+  }
+  geometry.uvsNeedUpdate = true;
+
+  // Create a cube with the textured material
   cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
