@@ -26,40 +26,10 @@ function init() {
     // Create a simple cube geometry
     const geometry = new THREE.BoxGeometry();
 
-    // Manually set UV coordinates
-    const uvMapping = [
-      // Right
-      { x: 0.75, y: 0.66 }, { x: 0.5, y: 0.66 }, { x: 0.5, y: 0.33 }, { x: 0.75, y: 0.33 },
-      // Left
-      { x: 0.25, y: 0.66 }, { x: 0, y: 0.66 }, { x: 0, y: 0.33 }, { x: 0.25, y: 0.33 },
-      // Top
-      { x: 0.25, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0.66 }, { x: 0.25, y: 0.66 },
-      // Bottom
-      { x: 0.25, y: 0.33 }, { x: 0, y: 0.33 }, { x: 0, y: 0 }, { x: 0.25, y: 0 },
-      // Front (North)
-      { x: 0.5, y: 0.66 }, { x: 0.25, y: 0.66 }, { x: 0.25, y: 0.33 }, { x: 0.5, y: 0.33 },
-      // Back (South)
-      { x: 1, y: 0.66 }, { x: 0.75, y: 0.66 }, { x: 0.75, y: 0.33 }, { x: 1, y: 0.33 },
-    ];
-
-    const uvFaces = [
-      geometry.faceVertexUvs[0][0],
-      geometry.faceVertexUvs[0][1],
-      geometry.faceVertexUvs[0][2],
-      geometry.faceVertexUvs[0][3],
-      geometry.faceVertexUvs[0][4],
-      geometry.faceVertexUvs[0][5],
-    ];
-
-    uvFaces.forEach((face, index) => {
-      const uv = uvMapping.slice(index * 4, index * 4 + 4);
-      face[0].set(uv[0].x, uv[0].y);
-      face[1].set(uv[1].x, uv[1].y);
-      face[2].set(uv[2].x, uv[2].y);
-      face[3].set(uv[3].x, uv[3].y);
+    // Assign texture to the cube faces
+    geometry.faces.forEach((face, index) => {
+      face.materialIndex = 0;
     });
-
-    geometry.uvsNeedUpdate = true;
 
     // Create a cube with the textured material
     cube = new THREE.Mesh(geometry, material);
