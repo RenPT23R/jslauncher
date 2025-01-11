@@ -1,5 +1,28 @@
 body {
     margin: 0;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     background-color: #000;
+    font-family: 'Arial', sans-serif;
+}
+  
+  .title-screen {
+    text-align: center;
+    color: #fff;
+}
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+  
+  button:hover {
+    background-color: #45a049;
 }  

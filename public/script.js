@@ -1,10 +1,8 @@
-import * as THREE from 'three';
+import * as THREE from 'https://cdn.skypack.dev/three@0.128.0';
 
 let scene, camera, renderer, cube;
 
 function init() {
-  console.log("Initializing Three.js...");
-
   // Initialize the scene
   scene = new THREE.Scene();
 
@@ -15,7 +13,7 @@ function init() {
   // Initialize the renderer
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  document.querySelector('.game-screen').appendChild(renderer.domElement);
 
   // Add a simple cube to the scene
   const geometry = new THREE.BoxGeometry();
@@ -28,7 +26,6 @@ function init() {
 
   // Start the animation loop
   animate();
-  console.log("Three.js initialized and rendering...");
 }
 
 function animate() {
@@ -48,5 +45,8 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// Initialize the scene when the window loads
-window.onload = init;
+document.getElementById('start-button').addEventListener('click', function() {
+  document.querySelector('.title-screen').style.display = 'none';
+  document.querySelector('.game-screen').style.display = 'block';
+  init();
+});
