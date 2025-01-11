@@ -4,25 +4,38 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    font-family: 'Minecraft', Arial, sans-serif; /* If you have a Minecraft-like font */
+    background-image: url('minecraft-bg.jpg'); /* Add your background image here */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     background-color: #000;
-    font-family: 'Arial', sans-serif;
-}
+  }
   
   .title-screen {
     text-align: center;
     color: #fff;
-}
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .title-screen h1 {
+    font-size: 48px;
+    margin: 0;
+  }
   
   button {
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 15px 30px;
+    font-size: 20px;
     cursor: pointer;
     background-color: #4CAF50;
     border: none;
     color: white;
-    border-radius: 5px;
-}
+    border-radius: 10px;
+    margin-top: 20px;
+  }
   
   button:hover {
     background-color: #45a049;
-}  
+  }  
