@@ -26,6 +26,32 @@ function init() {
     // Create a simple cube geometry
     const geometry = new THREE.BoxGeometry();
 
+    // Manually set UV coordinates
+    const uvMapping = [
+      // Right
+      new THREE.Vector2(0.75, 0.66), new THREE.Vector2(0.5, 0.66), new THREE.Vector2(0.5, 0.33), new THREE.Vector2(0.75, 0.33),
+      // Left
+      new THREE.Vector2(0.25, 0.66), new THREE.Vector2(0, 0.66), new THREE.Vector2(0, 0.33), new THREE.Vector2(0.25, 0.33),
+      // Top
+      new THREE.Vector2(0.25, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0.66), new THREE.Vector2(0.25, 0.66),
+      // Bottom
+      new THREE.Vector2(0.25, 0.33), new THREE.Vector2(0, 0.33), new THREE.Vector2(0, 0), new THREE.Vector2(0.25, 0),
+      // Front (North)
+      new THREE.Vector2(0.5, 0.66), new THREE.Vector2(0.25, 0.66), new THREE.Vector2(0.25, 0.33), new THREE.Vector2(0.5, 0.33),
+      // Back (South)
+      new THREE.Vector2(1, 0.66), new THREE.Vector2(0.75, 0.66), new THREE.Vector2(0.75, 0.33), new THREE.Vector2(1, 0.33),
+    ];
+
+    geometry.faceVertexUvs[0] = [];
+
+    for (let i = 0; i < 6; i++) {
+      const uvs = uvMapping.slice(i * 4, i * 4 + 4);
+      geometry.faceVertexUvs[0].push([uvs[0], uvs[1], uvs[3]]);
+      geometry.faceVertexUvs[0].push([uvs[1], uvs[2], uvs[3]]);
+    }
+
+    geometry.uvsNeedUpdate = true;
+
     // Create a cube with the textured material
     cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
